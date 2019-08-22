@@ -1,4 +1,5 @@
-<form [formGroup]="userform" (ngSubmit)="onSubmit(userform.value)">
+<p-toast position="top-right"></p-toast>
+<form [formGroup]="userform" (ngSubmit)="saveUser(userform.value)">
   <p-panel header="User Registration">
     <div class="ui-grid ui-grid-responsive ui-grid-pad ui-fluid" style="margin: 10px 0px">
       <div class="form-group">
@@ -68,11 +69,11 @@
       </div>
 
       <div class="form-group">
-        <label for="mobile">Mobile Number</label>
-        <input type="text" id="mobile" name="mobile" formControlName="mobile" class="form-control"
+        <label for="phoneNumber">Mobile Number</label>
+        <input type="text" id="phoneNumber" name="phoneNumber" formControlName="phoneNumber" class="form-control"
           placeholder="Mobile number" required />
         <p-message severity="error" text="Mobile is required"
-          *ngIf="!userform.controls['mobile'].valid && userform.controls['mobile'].dirty">
+          *ngIf="!userform.controls['phoneNumber'].valid && userform.controls['phoneNumber'].dirty">
         </p-message>
       </div>
 

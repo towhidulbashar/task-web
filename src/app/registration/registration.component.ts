@@ -1,16 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 import { Validators, FormControl, FormGroup, FormBuilder } from '@angular/forms';
 import { MessageService } from 'primeng/api';
+import { ApplicationUser } from './registration.model';
+import { RegistrationService } from './registration.service';
 
 @Component({
   selector: 'app-registration',
   templateUrl: './registration.component.html',
   styleUrls: ['./registration.component.css'],
-  providers: [MessageService]
+  providers: [MessageService, RegistrationService]
 })
 export class RegistrationComponent implements OnInit {
   userform: FormGroup;
-  constructor(private fb: FormBuilder, private messageService: MessageService) { }
+  constructor(private fb: FormBuilder, 
+    private messageService: MessageService,
+    private registrationService: RegistrationService) { }
 
   ngOnInit() {
     this.buildForm();
@@ -27,16 +31,27 @@ export class RegistrationComponent implements OnInit {
       ],
       'password': ['', [Validators.required, Validators.minLength(4)]],
       'retypePassword': ['', [Validators.required]],
-      'mobile': ['', [Validators.required, this.whiteSpaceValidator]],
+      'phoneNumber': ['', [Validators.required, this.whiteSpaceValidator]],
       'address': ['', [Validators.required, this.whiteSpaceValidator]]
     }, {
-        validator: this.mustMatch('password', 'retypePassword')
+        validator: this.registrationService.mustMatch('password', 'retypePassword')
       });
   }
 
-  onSubmit(value: string) {
-    console.log('value: ', value);
-    this.messageService.add({ severity: 'info', summary: 'Success', detail: 'Form Submitted' });
+  saveUser(applicationUser: ApplicationUser) {
+    console.log('user: ', applicationUser);
+    applicationUser.userName = applicationUser.email;
+    applicationUser.passwordHash = applicationUser.password;
+    this.registrationService.registerUser(applicationUser)
+      .subscribe(result => {
+        this.userform.reset();
+        this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Registration done.' });
+        console.log('result: ', result);
+      },
+      error => {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Registration failed.' });
+        console.log('SaveUser error: ', error);
+      });
   }
   get diagnostic() { return JSON.stringify(this.userform.value); }
   whiteSpaceValidator(control: FormControl) {
@@ -44,21 +59,5 @@ export class RegistrationComponent implements OnInit {
     const isValid = !isWhitespace;
     return isValid ? null : { 'whitespace': true };
   }
-  mustMatch(controlName: string, matchingControlName: string) {
-    return (formGroup: FormGroup) => {
-      const control = formGroup.controls[controlName];
-      const matchingControl = formGroup.controls[matchingControlName];
-      if (matchingControl.errors && !matchingControl.errors.mustMatch) {
-        // return if another validator has already found an error on the matchingControl
-        return;
-      }
-      // set error on matchingControl if validation fails
-      if (control.value !== matchingControl.value) {
-        matchingControl.setErrors({ mustMatch: true });
-      }
-      else {
-        matchingControl.setErrors(null);
-      }
-    }
-  }
+  
 }
