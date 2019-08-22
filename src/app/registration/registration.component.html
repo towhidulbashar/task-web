@@ -85,8 +85,10 @@
           *ngIf="!userform.controls['address'].valid && userform.controls['address'].dirty">
         </p-message>
       </div>
-
+      <div>
       <button type="submit" [disabled]="!userform.valid" class="btn btn-primary btn-success">Save</button>
+      <button type="button" class="btn btn-primary" style="margin-left: 10px;" (click)="userform.reset()">Clear</button>
+      </div>
     </div>
   </p-panel>
 </form>
