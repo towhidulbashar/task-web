@@ -1,3 +1,91 @@
-<p>
-  registration works!
-</p>
+<form [formGroup]="userform" (ngSubmit)="onSubmit(userform.value)">
+  <p-panel header="User Registration">
+    <div class="ui-grid ui-grid-responsive ui-grid-pad ui-fluid" style="margin: 10px 0px">
+      <div class="form-group">
+        <label for="firstName">First Name</label>
+        <input type="text" id="firstName" name="firstName" formControlName="firstName" class="form-control"
+          placeholder="First name" required maxlength="256"/>
+        <p-message severity="error" text="Firstname is required"
+          *ngIf="!userform.controls['firstName'].valid&&userform.controls['firstName'].dirty">
+        </p-message>
+      </div>
+
+      <div class="form-group">
+        <label for="lastName">Last Name</label>
+        <input type="text" id="lastName" name="lastName" formControlName="lastName" class="form-control"
+          placeholder="Last name" required maxlength="256"/>
+        <p-message severity="error" text="LastName is required"
+          *ngIf="!userform.controls['lastName'].valid&&userform.controls['lastName'].dirty">
+        </p-message>
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" formControlName="email" class="form-control"
+          placeholder="Email address" required required maxlength="256"/>
+        <p-message severity="error" [text]="userform.controls['email'].errors['required'] 
+        ? 'Email is required'  
+
+        : userform.controls['email'].errors['pattern'] 
+        ? 'Type proper email address' 
+       
+        : ''"
+          *ngIf="!userform.controls['email'].valid && userform.controls['email'].dirty">
+        </p-message>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" formControlName="password" class="form-control"
+          placeholder="Password" required minlength="4" />
+        <p-message severity="error" [text]="userform.controls['password'].errors['required'] 
+            ? 'Password is required'
+
+            : userform.controls['password'].errors['minlength'] 
+            ? 'Must be at least 4 characters' 
+            
+            : ''"
+          *ngIf="!userform.controls['password'].valid&&userform.controls['password'].dirty">
+        </p-message>
+      </div>
+
+      <div class="form-group">
+        <label for="retypePassword">Retype Password</label>
+        <input type="password" id="retypePassword" name="retypePassword" formControlName="retypePassword"
+          class="form-control" placeholder="Retype password" required />
+        <p-message severity="error" [text]="userform.controls['retypePassword'].errors['required'] 
+              ? 'Retype password is required'  
+
+              : userform.controls['retypePassword'].errors['mustMatch'] 
+              ? 'Retype password must match with password' 
+  
+              : userform.controls['retypePassword'].errors['minlength'] 
+              ? 'Must be longer than 6 characters' 
+              
+              : ''"
+          *ngIf="!userform.controls['retypePassword'].valid&&userform.controls['retypePassword'].dirty">
+        </p-message>
+      </div>
+
+      <div class="form-group">
+        <label for="mobile">Mobile Number</label>
+        <input type="text" id="mobile" name="mobile" formControlName="mobile" class="form-control"
+          placeholder="Mobile number" required />
+        <p-message severity="error" text="Mobile is required"
+          *ngIf="!userform.controls['mobile'].valid && userform.controls['mobile'].dirty">
+        </p-message>
+      </div>
+
+      <div class="form-group">
+        <label for="address">Address</label>
+        <textarea type="text" id="address" name="address" formControlName="address" class="form-control"
+          placeholder="Address" required></textarea>
+        <p-message severity="error" text="Address is required"
+          *ngIf="!userform.controls['address'].valid && userform.controls['address'].dirty">
+        </p-message>
+      </div>
+
+      <button type="submit" [disabled]="!userform.valid" class="btn btn-primary btn-success">Save</button>
+    </div>
+  </p-panel>
+</form>
