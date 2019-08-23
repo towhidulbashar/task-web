@@ -24,7 +24,7 @@ export class LoginComponent {
     this.loginService.login(userLogin)
       .subscribe(result => {
         if (result.status == 200) 
-          this.router.navigate(['/registration']);
+          this.router.navigate(['/dashboard']);
         else
           this.loginFailed = true;
       },

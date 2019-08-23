@@ -1,0 +1,49 @@
+
+<form [formGroup]="taskform" (ngSubmit)="saveTask(taskform.value)">
+  <p-panel header="Create Task">
+    <div class="ui-grid ui-grid-responsive ui-grid-pad ui-fluid" style="margin: 10px 0px">
+
+      <div class="form-group">
+        <label for="taskName">Task Name</label>
+        <input type="text" id="taskName" name="taskName" formControlName="taskName" class="form-control"
+          placeholder="Task name" required maxlength="256" />
+        <p-message severity="error" text="Task Name is required"
+          *ngIf="!taskform.controls['taskName'].valid && taskform.controls['taskName'].dirty">
+        </p-message>
+      </div>
+
+      <div class="form-group">
+        <label for="description">Description</label>
+        <input type="text" id="description" name="description" formControlName="description" class="form-control"
+          placeholder="Task description" maxlength="512" />
+        <p-message severity="error" text="Description must be within 512 character."
+          *ngIf="!taskform.controls['description'].valid&&taskform.controls['description'].dirty">
+        </p-message>
+      </div>
+
+      <div>
+        <label >Start Date</label>
+        <p-calendar id="startDate" name="startDate" formControlName="startDate" placeholder="Start date"
+          [minDate]="minDate" showIcon="true">
+        </p-calendar>
+      </div>
+
+      <div class="form-group">
+        <label for="endDate">End Date</label>
+        <p-calendar id="endDate" name="endDate" formControlName="endDate" placeholder="End date" 
+          [minDate]="minDate" showIcon="true"></p-calendar>
+      </div>
+
+      <div class="form-group">
+        <label for="assignedTo">Assigned To</label>
+        <p-dropdown [options]="users" id="assignedTo" name="assignedTo" formControlName="assignedTo" ></p-dropdown>
+      </div>
+
+      <div>
+        <button type="submit" [disabled]="!taskform.valid" class="btn btn-primary btn-success">Save</button>
+        <button type="button" class="btn btn-primary" style="margin-left: 10px;"
+          (click)="taskform.reset()">Clear</button>
+      </div>
+    </div>
+  </p-panel>
+</form>

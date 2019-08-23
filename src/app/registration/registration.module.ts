@@ -4,9 +4,9 @@ import { RegistrationComponent } from './registration.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { MessageModule } from 'primeng/message';
-import {PanelModule} from 'primeng/panel';
-import {AutoCompleteModule} from 'primeng/autocomplete';
-import {ToastModule} from 'primeng/toast';
+import { PanelModule } from 'primeng/panel';
+import { AutoCompleteModule } from 'primeng/autocomplete';
+import { ToastModule } from 'primeng/toast';
 
 @NgModule({
   declarations: [RegistrationComponent],
