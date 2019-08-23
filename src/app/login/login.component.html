@@ -9,7 +9,10 @@
       </div>
       <div class="form-group">
           <button type="submit" [disabled]="!loginFormGroup.valid" class="btn btn-primary btn-success btn-block">Log in</button>
-      </div>      
+      </div>
+      <p *ngIf="loginFailed" class="text-center text-danger">
+        Email or password is incorrect.
+      </p>      
   </form>
   <p class="text-center">
     <a routerLink="/registration" class="pull-right">Register</a>
