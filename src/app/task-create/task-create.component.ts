@@ -1,6 +1,7 @@
 import { Component, OnInit, ComponentFactoryResolver } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { SelectItem, MessageService } from 'primeng/components/common/api';
+import { ConfirmationService } from 'primeng/api';
 import { TaskCreateService } from './task-create.service';
 import { Task } from './task-create.model';
 
@@ -12,7 +13,7 @@ enum SubmitButtonText {
   selector: 'task-create',
   templateUrl: './task-create.component.html',
   styleUrls: ['./task-create.component.css'],
-  providers: [MessageService]
+  providers: [MessageService, ConfirmationService]
 })
 export class TaskCreateComponent implements OnInit {
   taskform: FormGroup = this.fb.group({
@@ -29,8 +30,9 @@ export class TaskCreateComponent implements OnInit {
   tasks: Task[] = [];
 
   constructor(private fb: FormBuilder,
-    private taskCreateService: TaskCreateService,
-    private messageService: MessageService) { }
+    private taskService: TaskCreateService,
+    private messageService: MessageService,
+    private confirmationService: ConfirmationService) { }
 
   ngOnInit() {
     this.loadUsersDropdown();
@@ -45,11 +47,11 @@ export class TaskCreateComponent implements OnInit {
   }
 
   private saveTask(task: Task) {
-    this.taskCreateService.saveTask(task)
+    this.taskService.saveTask(task)
       .subscribe(result => {
         if (result.status == 200) {
           this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Task saved.' });
-          this.taskform.reset();
+          this.resetUi();
           this.loadTaskTable();
         }
       },
@@ -60,13 +62,12 @@ export class TaskCreateComponent implements OnInit {
   }
 
   private updateTask(task: Task) {
-    this.taskCreateService.updateTask(task)
+    this.taskService.updateTask(task)
       .subscribe(result => {
         if (result.status == 200) {
           this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Task updated.' });
-          this.taskform.reset();
+          this.resetUi();
           this.loadTaskTable();
-          this.submitButtonText = SubmitButtonText.Save;
         }
       },
         error => {
@@ -75,26 +76,39 @@ export class TaskCreateComponent implements OnInit {
         });
   }
 
+  onTaskDelete(task: Task) {
+    this.confirmationService.confirm({
+      message: `Delete task ${task.name}?`,
+      accept: () => {
+        this.taskService.deleteTask(task.id)
+          .subscribe(() => {
+            this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Task deleted.' });
+          },
+            error => {
+              this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Task delete failed.' });
+              console.log('DeleteTask error: ', error);
+            });
+      }
+    });
+  }
   onTaskEdit(event: Task) {
     if (event.startDate)
       event.startDate = new Date(event.startDate);
     if (event.endDate)
       event.endDate = new Date(event.endDate);
-    console.log('onedit: ', event);
     this.submitButtonText = SubmitButtonText.Update;
     this.taskform.patchValue(event);
   }
   loadTaskTable() {
-    this.taskCreateService.getTasks()
+    this.taskService.getTasks()
       .subscribe(result => {
-        console.log('result: ', result);
         this.tasks = result;
       }, error => {
         console.log('getUsers error: ', error);
       });
   }
   private loadUsersDropdown() {
-    this.taskCreateService.getUsers()
+    this.taskService.getUsers()
       .subscribe(result => {
         this.users = [{ label: 'Select User', value: null }, ...result];
       }, error => {
@@ -102,7 +116,10 @@ export class TaskCreateComponent implements OnInit {
       });
   }
   onClear() {
-    this.taskform.reset();
+    this.resetUi();
+  }
+  private resetUi() {
+    this.taskform.reset({ id: 0 });
     this.submitButtonText = SubmitButtonText.Save;
   }
   getDateWithoutLocalTimeZone(date: Date): Date {

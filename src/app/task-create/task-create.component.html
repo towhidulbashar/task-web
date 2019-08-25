@@ -1,10 +1,11 @@
 <p-toast position="top-right"></p-toast>
+<p-confirmDialog header="Confirmation" [transitionOptions]="'300ms'" icon="pi pi-exclamation-triangle"></p-confirmDialog>
 
 <!-- form -->
 <form [formGroup]="taskform" (ngSubmit)="onSubmit(taskform.value)" autocomplete="off">
   <p-panel header="Create Task">
     <div class="ui-grid ui-grid-responsive ui-grid-pad ui-fluid" style="margin: 10px 0px">
-      <input type="hidden" value="id">
+      <input type="hidden" value="0">
       <div class="form-group">
         <label for="name">Task Name</label>
         <input type="text" id="name" name="name" formControlName="name" class="form-control" placeholder="Task name"
@@ -73,7 +74,7 @@
       <td>{{task.endDate ? task.endDate.toString().substring(0, 15) : task.endDate}}</td>
       <td>{{task.applicationUserName}}</td>
       <td>
-        <span class="btn btn-link" style="cursor: pointer" (click)="onTaskEdit(task)">Edit</span>
+        <span class="btn btn-link" style="cursor: pointer" (click)="onTaskEdit(task)">Edit</span>|<span class="btn btn-link text-danger" style="cursor: pointer" (click)="onTaskDelete(task)">Delete</span>
       </td>
     </tr>
   </ng-template>

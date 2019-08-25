@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpResponse, HttpParams, HttpHeaders } from '@angular/common/http';
 import { SelectItem } from 'primeng/components/common/api';
 import { Observable, pipe } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Task } from './task-create.model';
-import { isNgTemplate } from '@angular/compiler';
 
 @Injectable({
   providedIn: 'root'
@@ -19,6 +18,10 @@ export class TaskCreateService {
   updateTask(task: Task): Observable<HttpResponse<any>> {
     const updateTaskUrl: string = 'http://localhost:51192/api/workitem/update';
     return this.http.post(updateTaskUrl, task, { observe: 'response', responseType: 'text' });
+  }  
+  deleteTask(id: number): Observable<string> {
+    const deleteTaskUrl: string = `http://localhost:51192/api/workitem/delete/${id}`;
+    return this.http.delete(deleteTaskUrl, { observe: 'body', responseType: 'text' });
   }
 
   getTasks(): Observable<Task[]> {

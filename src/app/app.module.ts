@@ -16,6 +16,7 @@ import { PanelModule } from 'primeng/panel';
 import { DropdownModule } from 'primeng/dropdown';
 import { CalendarModule } from 'primeng/calendar';
 import { TableModule } from 'primeng/table';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
@@ -39,6 +40,7 @@ import { HttpClientModule } from '@angular/common/http';
     ToastModule,
     CalendarModule,
     TableModule,
+    ConfirmDialogModule,
     HttpClientModule
   ],
   providers: [],
