@@ -5,12 +5,6 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarCollapse">
-            <!-- <div class="navbar-nav">
-                        <a href="#" class="nav-item nav-link active">Home</a>
-                        <a href="#" class="nav-item nav-link">Services</a>
-                        <a href="#" class="nav-item nav-link">About</a>
-                        <a href="#" class="nav-item nav-link">Contact</a>
-                    </div> -->
             <div class="navbar-nav ml-auto">
                 <a *ngIf="!currentUser" routerLink="/login" class="nav-item nav-link">Login</a>
                 <span *ngIf="currentUser" class="nav-item nav-link">Welcome {{currentUser.firstName}}!</span>
@@ -20,13 +14,10 @@
     </div>
 </nav>
 <div class="container">
-    <!-- router outlet here -->
     <p-toast position="top-right"></p-toast>
-    <registration (decideRedirection)="onDecideRedirection($event)"></registration>
+    <registration (decideRedirection)="onDecideRedirection($event)"></registration> <br/>
     <task-create></task-create>
-
-    <div class="row">
-    </div>
+    
     <hr>
     <footer>
         <div class="row">
