@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { UserLogin } from './login.model';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { LoginService } from './login.service';
@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
   loginFailed: boolean = false;
   loginFormGroup: FormGroup = this.fb.group({
     userName: ['', [Validators.required]],
@@ -20,11 +20,16 @@ export class LoginComponent {
     private loginService: LoginService, 
     private router: Router) {
    }
+   ngOnInit() {
+    this.loginService.logout();
+   }
   login(userLogin: UserLogin){
     this.loginService.login(userLogin)
-      .subscribe(result => {
-        if (result.status == 200) 
+      .subscribe(user => {
+        if (user && user.token){
+          localStorage.setItem('currentUser', JSON.stringify(user)); 
           this.router.navigate(['/dashboard']);
+        }
         else
           this.loginFailed = true;
       },

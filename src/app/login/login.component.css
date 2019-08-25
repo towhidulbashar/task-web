@@ -2,6 +2,7 @@
     width: 340px;
     min-height: 500px;
     margin: 50px auto;
+    text-align: center;
 }
 .login-form form {
     margin-bottom: 15px;

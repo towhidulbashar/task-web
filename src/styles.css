@@ -3,6 +3,3 @@
 @import '../node_modules/primeng/resources/primeng.min.css';
 @import '../node_modules/primeng/resources/components/inputtext/inputtext.css';
 /* @import '../node_modules/primeflex/primeflex.css'; */
-.btn {
-    width: 75px;
-}

@@ -12,15 +12,14 @@
                 <a href="#" class="nav-item nav-link">Contact</a>
             </div>
             <div class="navbar-nav ml-auto">
-                <a routerLink="/login" class="nav-item nav-link">Login</a>
+                <a *ngIf="!currentUser" routerLink="/login" class="nav-item nav-link">Login</a>
+                <span *ngIf="currentUser" class="nav-item nav-link">Welcome {{currentUser.firstName}}!</span>
+                <a *ngIf="currentUser" routerLink="/login" class="nav-item nav-link">Logout</a>
             </div>
         </div>
     </div>
 </nav>
 <div class="container">
-    <!-- <div class="jumbotron">
-        <h1>Task Manager</h1>
-    </div> -->
     <router-outlet></router-outlet>
     <div class="row">
     </div>
