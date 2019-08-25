@@ -46,12 +46,17 @@ export class RegistrationComponent implements OnInit {
     this.registrationService.registerUser(applicationUser)
       .subscribe(result => {
         this.userform.reset();
+        this.decideRedirection.emit();
       },
         error => {
-          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Registration failed.' });
+          if (error.error) {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: `${JSON.parse(error.error)[0].description}` });
+          }
+          else {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Registration failed.' });
+          }
           console.log('SaveUser error: ', error);
         });
-    this.decideRedirection.emit();
   }
   get diagnostic() { return JSON.stringify(this.userform.value); }
   whiteSpaceValidator(control: FormControl) {
