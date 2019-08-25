@@ -1,12 +1,14 @@
 <p-toast position="top-right"></p-toast>
-<form [formGroup]="taskform" (ngSubmit)="saveTask(taskform.value)" autocomplete="off">
+
+<!-- form -->
+<form [formGroup]="taskform" (ngSubmit)="onSubmit(taskform.value)" autocomplete="off">
   <p-panel header="Create Task">
     <div class="ui-grid ui-grid-responsive ui-grid-pad ui-fluid" style="margin: 10px 0px">
-
+      <input type="hidden" value="id">
       <div class="form-group">
         <label for="name">Task Name</label>
-        <input type="text" id="name" name="name" formControlName="name" class="form-control"
-          placeholder="Task name" required maxlength="256" />
+        <input type="text" id="name" name="name" formControlName="name" class="form-control" placeholder="Task name"
+          required maxlength="256" />
         <p-message severity="error" text="Task Name is required"
           *ngIf="!taskform.controls['name'].valid && taskform.controls['name'].dirty">
         </p-message>
@@ -22,28 +24,57 @@
       </div>
 
       <div>
-        <label >Start Date</label>
+        <label>Start Date</label>
         <p-calendar id="startDate" name="startDate" formControlName="startDate" placeholder="Start date"
-          [minDate]="minDate" showIcon="true">
+          [minDate]="minDate" showIcon="true" dataType="string">
         </p-calendar>
       </div>
 
       <div class="form-group">
         <label for="endDate">End Date</label>
         <p-calendar id="endDate" name="endDate" formControlName="endDate" placeholder="End date" 
-          [minDate]="minDate" showIcon="true"></p-calendar>
+          [minDate]="minDate" showIcon="true" dataType="string">
+        </p-calendar>
       </div>
 
       <div class="form-group">
         <label for="applicationUserId">Assigned To</label>
-        <p-dropdown [options]="users" id="applicationUserId" name="applicationUserId" formControlName="applicationUserId" ></p-dropdown>
+        <p-dropdown [options]="users" id="applicationUserId" name="applicationUserId"
+          formControlName="applicationUserId"></p-dropdown>
       </div>
 
       <div>
-        <button type="submit" [disabled]="!taskform.valid" class="btn btn-primary btn-success">Save</button>
+        <button type="submit" [disabled]="!taskform.valid" class="btn btn-primary btn-success">{{submitButtonText}}</button>
         <button type="button" class="btn btn-primary" style="margin-left: 10px;"
-          (click)="taskform.reset()">Clear</button>
+          (click)="onClear()">Clear</button>
       </div>
     </div>
   </p-panel>
 </form>
+
+<!-- table -->
+<p-table [value]="tasks">
+  <ng-template pTemplate="header">
+    <tr>
+      <th>Name</th>
+      <th>Description</th>
+      <th>Start Date</th>
+      <th>End Date</th>
+      <th>Assigned To</th>
+      <th>Action</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-task>
+    <!-- <input type="hidden" value="task.applicationUserId"/> -->
+    <tr>
+      <td>{{task.name}}</td>
+      <td>{{task.description}}</td>
+      <td>{{task.startDate  ? task.startDate.toString().substring(0, 15) : task.startDate}}</td>
+      <td>{{task.endDate ? task.endDate.toString().substring(0, 15) : task.endDate}}</td>
+      <td>{{task.applicationUserName}}</td>
+      <td>
+        <span class="btn btn-link" style="cursor: pointer" (click)="onTaskEdit(task)">Edit</span>
+      </td>
+    </tr>
+  </ng-template>
+</p-table>

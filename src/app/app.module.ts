@@ -14,7 +14,8 @@ import { TaskCreateComponent } from './task-create/task-create.component';
 import { MessageModule } from 'primeng/message';
 import { PanelModule } from 'primeng/panel';
 import { DropdownModule } from 'primeng/dropdown';
-import {CalendarModule} from 'primeng/calendar';
+import { CalendarModule } from 'primeng/calendar';
+import { TableModule } from 'primeng/table';
 import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
@@ -37,6 +38,7 @@ import { HttpClientModule } from '@angular/common/http';
     DropdownModule,
     ToastModule,
     CalendarModule,
+    TableModule,
     HttpClientModule
   ],
   providers: [],
