@@ -1,61 +1,102 @@
 <p-toast position="top-right"></p-toast>
-<p-confirmDialog header="Confirmation" [transitionOptions]="'300ms'" icon="pi pi-exclamation-triangle"></p-confirmDialog>
+<p-confirmDialog header="Confirmation" [transitionOptions]="'300ms'" icon="pi pi-exclamation-triangle">
+</p-confirmDialog>
 
-<!-- form -->
-<form [formGroup]="taskform" (ngSubmit)="onSubmit(taskform.value)" autocomplete="off">
-  <p-panel header="Create Task">
-    <div class="ui-grid ui-grid-responsive ui-grid-pad ui-fluid" style="margin: 10px 0px">
-      <input type="hidden" value="0">
-      <div class="form-group">
-        <label for="name">Task Name</label>
-        <input type="text" id="name" name="name" formControlName="name" class="form-control" placeholder="Task name"
-          required maxlength="256" />
-        <p-message severity="error" text="Task Name is required"
-          *ngIf="!taskform.controls['name'].valid && taskform.controls['name'].dirty">
-        </p-message>
-      </div>
+<div class="row">
+  <div class="col-md-6">
+    <!-- form -->
+    <form [formGroup]="taskform" (ngSubmit)="onSubmit(taskform.value)" autocomplete="off">
+      <p-panel header="Create Task">
+        <div class="ui-grid ui-grid-responsive ui-grid-pad ui-fluid" style="margin: 10px 0px">
+          <input type="hidden" value="0">
+          <div class="form-group">
+            <label for="name">Task Name</label>
+            <input type="text" id="name" name="name" formControlName="name" class="form-control" placeholder="Task name"
+              required maxlength="256" />
+            <p-message severity="error" text="Task Name is required"
+              *ngIf="!taskform.controls['name'].valid && taskform.controls['name'].dirty">
+            </p-message>
+          </div>
 
-      <div class="form-group">
-        <label for="description">Description</label>
-        <input type="text" id="description" name="description" formControlName="description" class="form-control"
-          placeholder="Task description" maxlength="512" />
-        <p-message severity="error" text="Description must be within 512 character."
-          *ngIf="!taskform.controls['description'].valid&&taskform.controls['description'].dirty">
-        </p-message>
-      </div>
+          <div class="form-group">
+            <label for="description">Description</label>
+            <input type="text" id="description" name="description" formControlName="description" class="form-control"
+              placeholder="Task description" maxlength="512" />
+            <p-message severity="error" text="Description must be within 512 character."
+              *ngIf="!taskform.controls['description'].valid&&taskform.controls['description'].dirty">
+            </p-message>
+          </div>
 
-      <div>
-        <label>Start Date</label>
-        <p-calendar id="startDate" name="startDate" formControlName="startDate" placeholder="Start date"
-          [minDate]="minDate" showIcon="true" dataType="string">
-        </p-calendar>
-      </div>
+          <div>
+            <label>Start Date</label>
+            <p-calendar id="startDate" name="startDate" formControlName="startDate" placeholder="Start date"
+              [minDate]="minDate" showIcon="true" dataType="string">
+            </p-calendar>
+          </div>
 
-      <div class="form-group">
-        <label for="endDate">End Date</label>
-        <p-calendar id="endDate" name="endDate" formControlName="endDate" placeholder="End date" 
-          [minDate]="minDate" showIcon="true" dataType="string">
-        </p-calendar>
-      </div>
+          <div class="form-group">
+            <label for="endDate">End Date</label>
+            <p-calendar id="endDate" name="endDate" formControlName="endDate" placeholder="End date" [minDate]="minDate"
+              showIcon="true" dataType="string">
+            </p-calendar>
+          </div>
 
-      <div class="form-group">
-        <label for="applicationUserId">Assigned To</label>
-        <p-dropdown [options]="users" id="applicationUserId" name="applicationUserId"
-          formControlName="applicationUserId"></p-dropdown>
-      </div>
+          <div class="form-group">
+            <label for="applicationUserId">Assigned To</label>
+            <p-dropdown [options]="users" id="applicationUserId" name="applicationUserId"
+              formControlName="applicationUserId"></p-dropdown>
+          </div>
 
-      <div>
-        <button type="submit" [disabled]="!taskform.valid" class="btn btn-primary btn-success">{{submitButtonText}}</button>
-        <button type="button" class="btn btn-primary" style="margin-left: 10px;"
-          (click)="onClear()">Clear</button>
-      </div>
-    </div>
-  </p-panel>
-</form>
+          <div>
+            <button type="submit" [disabled]="!taskform.valid"
+              class="btn btn-primary btn-success">{{submitButtonText}}</button>
+            <button type="button" class="btn btn-primary" style="margin-left: 10px;" (click)="onClear()">Clear</button>
+          </div>
+        </div>
+      </p-panel>
+    </form>
+  </div>
+  <div class="col-md-6">
+    <!-- Assigned task -->
+    <p-table [value]="currentUserTasks">
+      <ng-template pTemplate="caption">
+        <div class="text-left">Your Tasks</div>
+      </ng-template>
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Name</th>
+          <th>Description</th>
+          <th>Start Date</th>
+          <th>End Date</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-task>
+        <tr>
+          <td>{{task.name}}</td>
+          <td>{{task.description}}</td>
+          <td>{{task.startDate  ? task.startDate.toString().substring(0, 15) : task.startDate}}</td>
+          <td>{{task.endDate ? task.endDate.toString().substring(0, 15) : task.endDate}}</td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="emptymessage" let-columns>
+        <tr>
+          <td colspan="4">
+            No task assigned to you.
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>
 
+
+
+<br />
 <!-- table -->
-<br/>
 <p-table [value]="tasks">
+  <ng-template pTemplate="caption">
+    <div class="text-left">All Tasks</div>
+  </ng-template>
   <ng-template pTemplate="header">
     <tr>
       <th>Name</th>
@@ -75,8 +116,16 @@
       <td>{{task.endDate ? task.endDate.toString().substring(0, 15) : task.endDate}}</td>
       <td>{{task.applicationUserName}}</td>
       <td>
-        <span class="btn btn-link" style="cursor: pointer" (click)="onTaskEdit(task)">Edit</span>|<span class="btn btn-link text-danger" style="cursor: pointer" (click)="onTaskDelete(task)">Delete</span>
+        <span class="btn btn-link" style="cursor: pointer" (click)="onTaskEdit(task)">Edit</span>|<span
+          class="btn btn-link text-danger" style="cursor: pointer" (click)="onTaskDelete(task)">Delete</span>
       </td>
     </tr>
+    <ng-template pTemplate="emptymessage" let-columns>
+        <tr>
+          <td colspan="6">
+            No task creted yet.
+          </td>
+        </tr>
+      </ng-template>
   </ng-template>
 </p-table>

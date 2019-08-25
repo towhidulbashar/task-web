@@ -28,6 +28,7 @@ export class TaskCreateComponent implements OnInit {
   minDate = new Date();
   users: SelectItem[] = [];
   tasks: Task[] = [];
+  currentUserTasks: Task[] = [];
 
   constructor(private fb: FormBuilder,
     private taskService: TaskCreateService,
@@ -37,6 +38,7 @@ export class TaskCreateComponent implements OnInit {
   ngOnInit() {
     this.loadUsersDropdown();
     this.loadTaskTable();
+    this.loadCurrentUserTasks();
   }
 
   onSubmit(task: Task) {
@@ -53,6 +55,7 @@ export class TaskCreateComponent implements OnInit {
           this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Task saved.' });
           this.resetUi();
           this.loadTaskTable();
+          this.loadCurrentUserTasks();
         }
       },
         error => {
@@ -68,6 +71,7 @@ export class TaskCreateComponent implements OnInit {
           this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Task updated.' });
           this.resetUi();
           this.loadTaskTable();
+          this.loadCurrentUserTasks();
         }
       },
         error => {
@@ -84,6 +88,7 @@ export class TaskCreateComponent implements OnInit {
           .subscribe(() => {
             this.tasks = this.tasks.filter(item => item.id !== task.id);
             this.resetUi();
+            this.loadCurrentUserTasks();
             this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Task deleted.' });
           },
             error => {
@@ -100,6 +105,15 @@ export class TaskCreateComponent implements OnInit {
       event.endDate = new Date(event.endDate);
     this.submitButtonText = SubmitButtonText.Update;
     this.taskform.patchValue(event);
+  }
+  
+  loadCurrentUserTasks() {
+    this.taskService.getCurrentUserTasks()
+      .subscribe(result => {
+        this.currentUserTasks = result;
+      }, error => {
+        console.log('getCurrentUserTasks error: ', error);
+      });
   }
   loadTaskTable() {
     this.taskService.getTasks()
