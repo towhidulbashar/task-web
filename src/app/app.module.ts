@@ -17,8 +17,9 @@ import { DropdownModule } from 'primeng/dropdown';
 import { CalendarModule } from 'primeng/calendar';
 import { TableModule } from 'primeng/table';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthGuard } from './guard/auth.guard';
+import { JwtInterceptor } from './utility/jwt.Interceptor';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,10 @@ import { AuthGuard } from './guard/auth.guard';
     ConfirmDialogModule,
     HttpClientModule
   ],
-  providers: [AuthGuard],
+  providers: [
+    AuthGuard,
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

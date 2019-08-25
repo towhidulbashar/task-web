@@ -82,6 +82,8 @@ export class TaskCreateComponent implements OnInit {
       accept: () => {
         this.taskService.deleteTask(task.id)
           .subscribe(() => {
+            this.tasks = this.tasks.filter(item => item.id !== task.id);
+            this.resetUi();
             this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Task deleted.' });
           },
             error => {
