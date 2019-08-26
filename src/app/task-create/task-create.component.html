@@ -117,12 +117,12 @@
           class="btn btn-link text-danger" style="cursor: pointer" (click)="onTaskDelete(task)">Delete</span>
       </td>
     </tr>
-    <ng-template pTemplate="emptymessage" let-columns>
-        <tr>
-          <td colspan="6">
-            No task creted yet.
-          </td>
-        </tr>
-      </ng-template>
   </ng-template>
+  <ng-template pTemplate="emptymessage" let-columns>
+      <tr>
+        <td colspan="6">
+          No task creted yet.
+        </td>
+      </tr>
+    </ng-template>
 </p-table>
