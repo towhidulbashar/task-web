@@ -7,6 +7,7 @@ import { MessageModule } from 'primeng/message';
 import { PanelModule } from 'primeng/panel';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { ToastModule } from 'primeng/toast';
+import { ProgressBarModule } from 'primeng/progressbar';
 
 @NgModule({
   declarations: [RegistrationComponent],
@@ -18,6 +19,7 @@ import { ToastModule } from 'primeng/toast';
     PanelModule,
     AutoCompleteModule,
     ToastModule,
+    ProgressBarModule,
     HttpClientModule
   ],
   exports: [

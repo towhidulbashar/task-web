@@ -1,4 +1,5 @@
-<div class="login-form">
+<div class="login-form">  
+  <p-progressBar *ngIf="loading" mode="indeterminate" [style]="{'height': '5px'}"></p-progressBar>
   <form [formGroup]="loginFormGroup" (ngSubmit)="login(loginFormGroup.value)" autocomplete="off">
     <h2 class="text-center">Login</h2>
     <div class="form-group">

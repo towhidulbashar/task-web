@@ -17,6 +17,7 @@ import { DropdownModule } from 'primeng/dropdown';
 import { CalendarModule } from 'primeng/calendar';
 import { TableModule } from 'primeng/table';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ProgressBarModule } from 'primeng/progressbar';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthGuard } from './guard/auth.guard';
 import { JwtInterceptor } from './utility/jwt.Interceptor';
@@ -43,6 +44,7 @@ import { JwtInterceptor } from './utility/jwt.Interceptor';
     CalendarModule,
     TableModule,
     ConfirmDialogModule,
+    ProgressBarModule,
     HttpClientModule
   ],
   providers: [

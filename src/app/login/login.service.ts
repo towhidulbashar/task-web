@@ -14,6 +14,9 @@ export class LoginService {
     return this.http.post<User>(loginUrl, userLogin);
   }
   logout() {
+    const logoutUrl: string = 'http://localhost:51192/api/account/logout';
+    if (localStorage.getItem('currentUser'))
+      this.http.post(logoutUrl, {}).subscribe();
     localStorage.removeItem('currentUser');
   }
 }

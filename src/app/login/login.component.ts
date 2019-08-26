@@ -15,6 +15,7 @@ export class LoginComponent implements OnInit {
     password: ['', [Validators.required]]
   });
   loginFailed: boolean = false;
+  loading: boolean = false;
   
   constructor(private fb: FormBuilder,
     private loginService: LoginService, 
@@ -24,6 +25,7 @@ export class LoginComponent implements OnInit {
     this.loginService.logout();
    }
   login(userLogin: UserLogin){
+    this.loading = true;
     this.loginService.login(userLogin)
       .subscribe(user => {
         if (user && user.token){
@@ -32,10 +34,12 @@ export class LoginComponent implements OnInit {
         }
         else
           this.loginFailed = true;
+          this.loading = false;
       },
       error => {
         console.log('login error: ', error);
         this.loginFailed = true;
+        this.loading = false;
       });
   }
 }
