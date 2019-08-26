@@ -15,8 +15,9 @@
 </nav>
 <div class="container">
     <p-toast position="top-right"></p-toast>
-    <registration (decideRedirection)="onDecideRedirection($event)"></registration> <br/>
-    <task-create></task-create>
+    <registration (decideRedirection)="onDecideRedirection($event)" (onUserAdd)="loadUsersDropdown()">        
+    </registration> <br/>
+    <task-create #createTask></task-create>
     
     <hr>
     <footer>

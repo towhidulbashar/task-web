@@ -13,6 +13,7 @@ import { RegistrationService } from './registration.service';
 export class RegistrationComponent implements OnInit {
   userform: FormGroup;
   @Output() decideRedirection = new EventEmitter();
+  @Output() onUserAdd = new EventEmitter();
 
   constructor(private fb: FormBuilder,
     private messageService: MessageService,
@@ -47,6 +48,7 @@ export class RegistrationComponent implements OnInit {
       .subscribe(result => {
         this.userform.reset();
         this.decideRedirection.emit();
+        this.onUserAdd.emit();
       },
         error => {
           if (error.error) {

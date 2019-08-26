@@ -123,7 +123,7 @@ export class TaskCreateComponent implements OnInit {
         console.log('getUsers error: ', error);
       });
   }
-  private loadUsersDropdown() {
+  loadUsersDropdown() {
     this.taskService.getUsers()
       .subscribe(result => {
         this.users = [{ label: 'Select User', value: null }, ...result];

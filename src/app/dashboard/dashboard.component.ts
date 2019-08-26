@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { User } from '../login/login.model';
+import { TaskCreateComponent } from '../task-create/task-create.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -10,6 +11,7 @@ import { User } from '../login/login.model';
 })
 export class DashboardComponent implements OnInit {
   currentUser: User;
+  @ViewChild('createTask') createTask: TaskCreateComponent;
   constructor(private messageService: MessageService) { }
 
   ngOnInit() {
@@ -20,5 +22,8 @@ export class DashboardComponent implements OnInit {
   }
   onDecideRedirection() {
     this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Registration done.' });
+  }
+  loadUsersDropdown() {
+    this.createTask.loadUsersDropdown();
   }
 }
