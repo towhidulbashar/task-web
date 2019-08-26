@@ -22,7 +22,9 @@ export class LoginComponent implements OnInit {
     private router: Router) {
    }
    ngOnInit() {
-    this.loginService.logout();
+     if (this.loginService.isUserLoggedIn()) {
+      this.router.navigate(['/dashboard']);
+     }
    }
   login(userLogin: UserLogin){
     this.loading = true;
@@ -32,9 +34,10 @@ export class LoginComponent implements OnInit {
           localStorage.setItem('currentUser', JSON.stringify(user)); 
           this.router.navigate(['/dashboard']);
         }
-        else
+        else {
           this.loginFailed = true;
-          this.loading = false;
+        }
+        this.loading = false;
       },
       error => {
         console.log('login error: ', error);

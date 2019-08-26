@@ -1,7 +1,5 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { RegistrationComponent } from './registration/registration.component';
-import { RegistrationModule } from './registration/registration.module';
 import { LoginComponent } from './login/login.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { AdminRegisterComponent } from './admin-register/admin-register.component';
